@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+option go_package = "/pb";
+
+package pb;
+
+message AuthenticateRequest {
+    string token = 1;
+}
+
+message AuthenticateResponse {
+    string uid = 1;
+}
+
+message LoginRequest {
+    string email = 1;
+    string password = 2;
+    string mfaToken = 3;
+}
+
+message LoginResponse {
+    string token = 1;
+}
+
+message UpdateCredentialsRequest {
+    string credentialId = 1;
+    bool mfaEnabled = 2;
+}
+
+message CreateCredentialsRequest {
+    string userId = 1;
+    string email = 2;
+    string hash = 3;
+}
+
+message CreateCredentialsResponse {
+   string credentialsId = 1;
+}
+
+message Void {}
+
+service AuthService {
+    rpc login             (LoginRequest)             returns (LoginResponse);
+    rpc createCredentials (CreateCredentialsRequest) returns (CreateCredentialsResponse);
+    rpc updateCredentials (UpdateCredentialsRequest) returns (Void);
+    rpc authenticate      (AuthenticateRequest)      returns (AuthenticateResponse);
+}
